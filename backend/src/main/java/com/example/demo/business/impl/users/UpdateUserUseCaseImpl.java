@@ -24,7 +24,7 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
         up.get().setEmail(user.getEmail());
         up.get().setPwd(user.getPwd());
         up.get().setBank_account(user.getBankAccount());
-        up.get().setRole(user.getRole());
+
         userRepository.save(up.get());
         return user;
     }

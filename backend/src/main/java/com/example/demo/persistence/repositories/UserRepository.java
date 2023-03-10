@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserPersistence, Long> {
     boolean existsById(int id);
+    UserPersistence findByUsername(String username);
 }

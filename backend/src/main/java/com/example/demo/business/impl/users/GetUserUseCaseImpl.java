@@ -1,13 +1,17 @@
 package com.example.demo.business.impl.users;
 
 import com.example.demo.business.cases.users.GetUserUseCase;
+import com.example.demo.domain.Role;
 import com.example.demo.domain.User;
+import com.example.demo.domain.persistenceClasses.RolePersistence;
 import com.example.demo.domain.persistenceClasses.UserPersistence;
 import com.example.demo.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +29,19 @@ public class GetUserUseCaseImpl implements GetUserUseCase {
                 .username(up.get().getUsername())
                 .pwd(up.get().getPwd())
                 .bankAccount(up.get().getBank_account())
-                .role(up.get().getRole())
                 .email(up.get().getEmail())
                 .build();
+
+        Set<Role> userRoles = new HashSet<>();
+        for(RolePersistence role : up.get().getUserRoles()) {
+            Role newRole = Role.builder()
+                    .id(Math.toIntExact(role.getId()))
+                    .role(role.getRole())
+                    .user_id(Math.toIntExact(role.getUser()))
+                    .build();
+            userRoles.add(newRole);
+        }
+        user.setUserRoles(userRoles);
         return user;
     }
 }
